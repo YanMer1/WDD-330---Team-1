@@ -12,7 +12,6 @@ export default class ProductDetails {
     // Notice the .bind(this). Our callback will not work if we don't include that line. Review the readings from this week on 'this' to understand why.
     this.product = await this.dataSource.findProductById(this.productID);
 
-    console.log(this.product);
     this.renderProductDetails();
 
     document.getElementById('addToCart')
