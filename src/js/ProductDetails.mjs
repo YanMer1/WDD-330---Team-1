@@ -1,3 +1,5 @@
+import { setLocalStorage} from './utils.mjs';
+
 export default class ProductDetails {
 constructor(productId, dataSource) {
     this.productId = productId;
@@ -6,18 +8,20 @@ constructor(productId, dataSource) {
   }
 
 async init() {
-    this.product = await this.dataSource.getProduct(this.productId);
+    this.product = await this.dataSource.findProductById(this.productId);
 
-    this.renderProductDetails()
+    this.renderProductDetails();
 
     document.getElementById('addToCart')
     .addEventListener('click', this.addToCart.bind(this));
 }
 
-addToCart() {}
+addToCart() {
+    setLocalStorage('so-cart', this.product);
+}
 
 renderProductDetails() {
-    let ProductDetails = document.querySelector('productDetails');
+    let productDetail = document.querySelector('.product-detail');
     let h3 = document.createElement('h3');
     let h2 = document.createElement('h2');
     let img = document.createElement('img');
