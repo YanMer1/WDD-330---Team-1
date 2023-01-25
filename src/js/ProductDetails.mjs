@@ -1,4 +1,4 @@
-import { setLocalStorage } from './utils.mjs';
+import { setLocalStorage, getLocalStorage, updateCartIcon } from './utils.mjs';
 
 export default class ProductDetails {
   constructor(productID, dataSource) {
@@ -8,6 +8,7 @@ export default class ProductDetails {
   }
 
   async init() {
+    updateCartIcon();
     // use our datasource to get the details for the current product. findProductById will return a promise! use await or .then() to process it
     // once we have the product details we can render out the HTML
     // once the HTML is rendered we can add a listener to Add to Cart button
@@ -21,7 +22,11 @@ export default class ProductDetails {
   }
   
   addToCart() {
-    setLocalStorage('so-cart', this.product);
+    let cartItems = getLocalStorage('so-cart');
+    cartItems.push(this.product);
+    setLocalStorage('so-cart', cartItems);
+
+    updateCartIcon();
   }
 
   renderProductDetails() {
