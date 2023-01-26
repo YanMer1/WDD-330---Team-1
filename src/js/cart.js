@@ -1,4 +1,4 @@
-import { getLocalStorage, updateCartIcon } from './utils.mjs';
+import { getLocalStorage, setLocalStorage, updateCartIcon } from './utils.mjs';
 
 function renderCartContents() {
   const cartItems = getLocalStorage('so-cart');
@@ -20,11 +20,31 @@ function cartItemTemplate(item) {
   <p class="cart-card__color">${item.Colors[0].ColorName}</p>
   <p class="cart-card__quantity">qty: 1</p>
   <p class="cart-card__price">$${item.FinalPrice}</p>
-</li>`;
+</li>
+<button class="remove-item" id=${item.Id}>X</button>`;
 
   return newItem;
 }
 
-renderCartContents();
+function removeCartItem(item) {
+  const cartItems = getLocalStorage('so-cart');
 
+  if (item.target.classList == 'remove-item') {
+    for (let i = 0; i < cartItems.length; i++) {
+      if (item.target.id == cartItems[i].Id) {
+
+        cartItems.splice(i, 1);
+
+        setLocalStorage('so-cart', cartItems);
+
+        renderCartContents();
+        updateCartIcon();
+        return;
+      }
+    }
+  }
+}
+
+renderCartContents();
 updateCartIcon();
+document.body.addEventListener('click', removeCartItem);
