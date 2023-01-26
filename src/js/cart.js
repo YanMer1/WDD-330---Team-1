@@ -28,7 +28,6 @@ function cartItemTemplate(item) {
 
 function removeCartItem(item) {
   const cartItems = getLocalStorage('so-cart');
-  console.log(cartItems);
 
   if (item.target.classList == 'remove-item') {
     for (let i = 0; i < cartItems.length; i++) {
