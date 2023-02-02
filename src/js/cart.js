@@ -43,9 +43,8 @@ function cartItemTemplate(item) {
   </a>
   <p class="cart-card__color">${item.Colors[0].ColorName}</p>
   <p class="cart-card__quantity">qty: ${inCartQty[inCartItems.indexOf(item.Id)]}</p>
-  <p class="cart-card__suggested-price discount suggested-price">$${item.SuggestedRetailPrice}</p>
-  <p class="cart-card__price">$${item.FinalPrice}</p>
-  <p class="">$${item.FinalPrice * inCartQty[inCartItems.indexOf(item.Id)]}</p>
+  <p class="cart-card__price">Each: $${item.FinalPrice}</p>
+  <p class="cart-card__subtotal">Subtotal: $${item.FinalPrice * inCartQty[inCartItems.indexOf(item.Id)]}</p>
 </li>
 <button class="remove-item" id=${item.Id}>X</button>`;
   
