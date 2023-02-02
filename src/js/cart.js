@@ -80,4 +80,4 @@ function init() {
   document.body.addEventListener('click', removeCartItem);
 }
 
-setTimeout(init, 100);
+setTimeout(init, 25);
