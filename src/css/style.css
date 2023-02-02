@@ -216,6 +216,14 @@ button {
   grid-column: 3;
 }
 
+.discount {
+  color: red;
+}
+
+.suggested-price {
+  text-decoration: line-through;
+}
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;

@@ -34,7 +34,8 @@ export default class ProductDetails {
     let h3 = document.createElement('h3');
     let h2 = document.createElement('h2');
     let img = document.createElement('img');
-    let price = document.createElement('p');
+    let suggestedPrice = document.createElement('p');
+    let priceFinal = document.createElement('p');
     let color = document.createElement('p');
     let desc = document.createElement('p');
     let divAdd = document.createElement('div');
@@ -49,8 +50,11 @@ export default class ProductDetails {
     img.setAttribute('src', this.product.Image);
     img.setAttribute('alt', this.product.NameWithoutBrand);
 
-    price.setAttribute('class', 'product-card_price');
-    price.textContent = `$${this.product.FinalPrice}`;
+    suggestedPrice.setAttribute('class', 'product-card_price discount');
+    suggestedPrice.innerHTML = `<span class="suggested-price">$${this.product.SuggestedRetailPrice}</span> -${Math.round(100 - (this.product.FinalPrice / this.product.SuggestedRetailPrice * 100))}%`;
+
+    priceFinal.setAttribute('class', 'product-card_price');
+    priceFinal.textContent = `$${this.product.FinalPrice}`;
 
     color.setAttribute('class', 'product__color');
     color.textContent = this.product.Colors[0].ColorName;
@@ -69,7 +73,10 @@ export default class ProductDetails {
     productDetail.appendChild(h3);
     productDetail.appendChild(h2);
     productDetail.appendChild(img);
-    productDetail.appendChild(price);
+
+    if (this.product.SuggestedRetailPrice != this.product.FinalPrice) productDetail.appendChild(suggestedPrice);
+
+    productDetail.appendChild(priceFinal);
     productDetail.appendChild(color);
     productDetail.appendChild(desc);
     productDetail.appendChild(divAdd);
