@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage, updateCartIcon } from './utils.mjs';
+import { getLocalStorage, setLocalStorage, updateCartIcon, loadheaderFooter } from './utils.mjs';
 
 let inCartItems = [];
 let cartItemsDisplayed = [];
@@ -71,6 +71,13 @@ function removeCartItem(item) {
   }
 }
 
-renderCartContents();
-updateCartIcon();
-document.body.addEventListener('click', removeCartItem);
+loadheaderFooter();
+
+
+function init() {
+  renderCartContents();
+  updateCartIcon();
+  document.body.addEventListener('click', removeCartItem);
+}
+
+setTimeout(init, 100);
