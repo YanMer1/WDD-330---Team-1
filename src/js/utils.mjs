@@ -35,11 +35,20 @@ export function getParam(param) {
 export function updateCartIcon() {
   const cartIcon = document.querySelector('.cart');
   const cartLength = document.createElement('p');
-  
+
   if (cartIcon.children[0].children.length > 1) {
     cartIcon.children[0].removeChild(cartIcon.children[0].children[1]);
   }
 
   cartLength.textContent = getLocalStorage('so-cart').length;
   cartIcon.children[0].appendChild(cartLength);
+}
+
+export function renderListWithTemplate(templateFn, parentElement, list, position = 'afterbegin', clear = false) {
+  if (clear) {
+    parentElement.innerHTML = '';
+  }
+
+  const htmlStrings = list.map(templateFn);
+  parentElement.insertAdjacentHTML(position, htmlStrings.join(''));
 }
