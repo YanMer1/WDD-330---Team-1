@@ -6,7 +6,6 @@ let cartItemsDisplayed = [];
 function renderCartContents() {
   const cartItems = getLocalStorage('so-cart');
   inCart(cartItems);
-  console.log(cartItemsDisplayed);
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   if (htmlItems.length == 0) {
     document.querySelector('.product-list').innerHTML = '<h1>Your cart is empty :(</h1>';
