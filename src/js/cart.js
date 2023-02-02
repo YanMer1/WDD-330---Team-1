@@ -1,12 +1,12 @@
 import { getLocalStorage, setLocalStorage, updateCartIcon } from './utils.mjs';
 
 let inCartItems = [];
-let inCartQty = [];
-let displayed = [];
+let cartItemsDisplayed = [];
 
 function renderCartContents() {
   const cartItems = getLocalStorage('so-cart');
   inCart(cartItems);
+  console.log(cartItemsDisplayed);
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   if (htmlItems.length == 0) {
     document.querySelector('.product-list').innerHTML = '<h1>Your cart is empty :(</h1>';
@@ -19,19 +19,18 @@ function inCart(cartItems) {
   for (let item of cartItems) {
     if (!inCartItems.includes(item.Id)) {
       inCartItems.push(item.Id);
-      inCartQty.push(1);
-      displayed.push(false);
+      cartItemsDisplayed.push([1, false]);
     } else {
-      inCartQty[inCartItems.indexOf(item.Id)] += 1;
+      cartItemsDisplayed[inCartItems.indexOf(item.Id)][0] += 1;
     }
   }
 }
 
 function cartItemTemplate(item) {
-  if (displayed[inCartItems.indexOf(item.Id)]) {
+  if (cartItemsDisplayed[inCartItems.indexOf(item.Id)][1]) {
     return '';
   } else {
-  const newItem = `<li class="cart-card divider">
+    const newItem = `<li class="cart-card divider">
   <a href="#" class="cart-card__image">
     <img
       src="${item.Image}"
@@ -42,14 +41,14 @@ function cartItemTemplate(item) {
     <h2 class="card__name">${item.Name}</h2>
   </a>
   <p class="cart-card__color">${item.Colors[0].ColorName}</p>
-  <p class="cart-card__quantity">qty: ${inCartQty[inCartItems.indexOf(item.Id)]}</p>
+  <p class="cart-card__quantity">qty: ${cartItemsDisplayed[inCartItems.indexOf(item.Id)][0]}</p>
   <p class="cart-card__price">Each: $${item.FinalPrice}</p>
-  <p class="cart-card__subtotal">Subtotal: $${item.FinalPrice * inCartQty[inCartItems.indexOf(item.Id)]}</p>
+  <p class="cart-card__subtotal">Subtotal: $${item.FinalPrice * cartItemsDisplayed[inCartItems.indexOf(item.Id)][0]}</p>
 </li>
 <button class="remove-item" id=${item.Id}>X</button>`;
-  
-    displayed[inCartItems.indexOf(item.Id)] = true;
-  return newItem;
+
+    cartItemsDisplayed[inCartItems.indexOf(item.Id)][1] = true;
+    return newItem;
   }
 }
 
@@ -64,8 +63,7 @@ function removeCartItem(item) {
 
         setLocalStorage('so-cart', cartItems);
         inCartItems = [];
-        inCartQty = [];
-        displayed = [];
+        cartItemsDisplayed = [];
         renderCartContents();
         updateCartIcon();
         return;
