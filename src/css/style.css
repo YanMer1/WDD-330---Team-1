@@ -110,6 +110,20 @@ button {
   fill: gray;
 }
 
+.cart a {
+  text-decoration: none;
+}
+
+.cart p {
+  color: var(--dark-grey);
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  font-size: 1rem;
+  position: absolute;
+  translate: 10px -60px;
+  padding: .2rem .5rem;
+}
+
 /* End cart icon styles */
 
 .mission {
@@ -200,6 +214,19 @@ button {
 .cart-card__price {
   grid-row: 2;
   grid-column: 3;
+}
+
+.cart-card__subtotal {
+  grid-row: 3;
+  grid-column: 3;
+}
+
+.discount {
+  color: red;
+}
+
+.suggested-price {
+  text-decoration: line-through;
 }
 
 @media screen and (min-width: 500px) {
