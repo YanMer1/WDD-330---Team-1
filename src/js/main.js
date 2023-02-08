@@ -1,4 +1,4 @@
-import { updateCartIcon, getLocalStorage, setLocalStorage } from './utils.mjs';
+import { updateCartIcon, getLocalStorage, setLocalStorage, loadheaderFooter } from './utils.mjs';
 import ProductData from './ProductData.mjs';
 import ProductList from './ProductList.mjs';
 
@@ -12,9 +12,16 @@ if (!getLocalStorage('so-cart').length) {
   setLocalStorage('so-cart', []);
 }
 
+loadheaderFooter();
+
 const dataSource = new ProductData('tents');
 
 const productList = new ProductList('tents', dataSource, document.querySelector('.product-list'));
-productList.init();
 
-updateCartIcon();
+function init() {
+  productList.init();
+  
+  updateCartIcon();
+}
+
+setTimeout(init, 25);
