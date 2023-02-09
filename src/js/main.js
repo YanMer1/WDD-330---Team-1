@@ -24,4 +24,4 @@ function init() {
   updateCartIcon();
 }
 
-setTimeout(init, 25);
+setTimeout(init, 50);
