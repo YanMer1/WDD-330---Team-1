@@ -21,7 +21,7 @@ const productList = new ProductList('tents', dataSource, document.querySelector(
 function init() {
   productList.init();
   
-  updateCartIcon();
+  /*updateCartIcon();*/
 }
 
-setTimeout(init, 25);
+setTimeout(init, 75);
