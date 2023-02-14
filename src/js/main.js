@@ -1,6 +1,4 @@
 import { updateCartIcon, getLocalStorage, setLocalStorage, loadheaderFooter } from './utils.mjs';
-import ProductData from './ProductData.mjs';
-import ProductList from './ProductList.mjs';
 
 /* 
 Convert cart item in local storage from JSON to Array.
@@ -14,14 +12,10 @@ if (!getLocalStorage('so-cart').length) {
 
 loadheaderFooter();
 
-const dataSource = new ProductData('tents');
-
-const productList = new ProductList('tents', dataSource, document.querySelector('.product-list'));
 
 function init() {
-  productList.init();
   
   updateCartIcon();
 }
 
-setTimeout(init, 50);
+setTimeout(init, 250);

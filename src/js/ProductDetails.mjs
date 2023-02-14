@@ -1,5 +1,27 @@
 import { setLocalStorage, getLocalStorage, updateCartIcon } from './utils.mjs';
 
+function productDetailsTemaplate(product) {
+  return `<section class="product-detail"> <h3>${product.Brand.Name}</h3>
+    <h2 class="divider">${product.NameWithoutBrand}</h2>
+    <img
+      class="divider"
+      src="${product.Images.PrimaryLarge}"
+      alt="${product.NameWithoutBrand}"
+    />
+    <p class="product-card__price discount">
+    <span class="suggested-price">$${product.SuggestedRetailPrice}</span>
+     -${Math.round(100 - (product.FinalPrice / product.SuggestedRetailPrice * 100))}%
+    </p>
+    <p class="product-card__price">$${product.FinalPrice}</p>
+    <p class="product__color">${product.Colors[0].ColorName}</p>
+    <p class="product__description">
+      ${product.DescriptionHtmlSimple}
+    </p>
+    <div class="product-detail__add">
+      <button id="addToCart" data-id=${product.Id}">Add to Cart</button>
+    </div></section>`;
+}
+
 export default class ProductDetails {
   constructor(productID, dataSource) {
     this.productID = productID;
@@ -15,70 +37,31 @@ export default class ProductDetails {
     // Notice the .bind(this). Our callback will not work if we don't include that line. Review the readings from this week on 'this' to understand why.
     this.product = await this.dataSource.findProductById(this.productID);
 
-    this.renderProductDetails();
+    
+    // Set the document title
+    document.title += ` ${this.product.Name}`;
+
+    this.renderProductDetails('main');
 
     document.getElementById('addToCart')
-    .addEventListener('click', this.addToCart.bind(this));
+      .addEventListener('click', this.addToCart.bind(this));
   }
-  
+
   addToCart() {
     let cartItems = getLocalStorage('so-cart');
+
+    if (!cartItems) {
+      cartItems = [];
+    }
+
     cartItems.push(this.product);
     setLocalStorage('so-cart', cartItems);
 
     updateCartIcon();
   }
 
-  renderProductDetails() {
-    let productDetail = document.querySelector('.product-detail');
-    let h3 = document.createElement('h3');
-    let h2 = document.createElement('h2');
-    let img = document.createElement('img');
-    let suggestedPrice = document.createElement('p');
-    let priceFinal = document.createElement('p');
-    let color = document.createElement('p');
-    let desc = document.createElement('p');
-    let divAdd = document.createElement('div');
-    let buttonAdd = document.createElement('button');
-
-    h3.textContent = this.product.Brand.Name;
-
-    h2.setAttribute('class', 'divider');
-    h2.textContent = this.product.NameWithoutBrand;
-
-    img.setAttribute('class', 'divider');
-    img.setAttribute('src', this.product.Image);
-    img.setAttribute('alt', this.product.NameWithoutBrand);
-
-    suggestedPrice.setAttribute('class', 'product-card_price discount');
-    suggestedPrice.innerHTML = `<span class="suggested-price">$${this.product.SuggestedRetailPrice}</span> -${Math.round(100 - (this.product.FinalPrice / this.product.SuggestedRetailPrice * 100))}%`;
-
-    priceFinal.setAttribute('class', 'product-card_price');
-    priceFinal.textContent = `$${this.product.FinalPrice}`;
-
-    color.setAttribute('class', 'product__color');
-    color.textContent = this.product.Colors[0].ColorName;
-
-    desc.setAttribute('class', 'product__description');
-    desc.innerHTML = this.product.DescriptionHtmlSimple;
-
-    divAdd.setAttribute('class', 'product-detail_add');
-
-    buttonAdd.setAttribute('id', 'addToCart');
-    buttonAdd.setAttribute('data-id', this.product.Id);
-    buttonAdd.textContent = 'Add to Cart';
-
-    divAdd.appendChild(buttonAdd);
-
-    productDetail.appendChild(h3);
-    productDetail.appendChild(h2);
-    productDetail.appendChild(img);
-
-    if (this.product.SuggestedRetailPrice != this.product.FinalPrice) productDetail.appendChild(suggestedPrice);
-
-    productDetail.appendChild(priceFinal);
-    productDetail.appendChild(color);
-    productDetail.appendChild(desc);
-    productDetail.appendChild(divAdd);
+  renderProductDetails(selector) {
+    const element = document.querySelector(selector);
+    element.insertAdjacentHTML('afterbegin', productDetailsTemaplate(this.product));
   }
 }
