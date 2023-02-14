@@ -1,6 +1,4 @@
 import { updateCartIcon, getLocalStorage, setLocalStorage, loadheaderFooter } from './utils.mjs';
-import ProductData from './ProductData.mjs';
-import ProductList from './ProductList.mjs';
 
 /* 
 Convert cart item in local storage from JSON to Array.

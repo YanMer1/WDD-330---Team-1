@@ -6,7 +6,7 @@ function productCardTemplate(product) {
   return `<li class="product-card">
     <a href="../product_pages/index.html?product=${product.Id}">
       <img
-        src="${product.Image}"
+        src="${product.Images.PrimaryMedium}"
         alt="${product.Name}"
       />
       <h3 class="card__brand">${product.Brand.Name}</h3>
@@ -25,8 +25,14 @@ export default class ProductList {
   }
 
   async init() {
-    const list = await this.dataSource.getData();
-    this.renderList(this.filterList(list, ['880RR', '985RF', '985PR', '344YJ']));
+    const list = await this.dataSource.getData(this.category);
+    this.renderList(list);
+
+    // Set the document title
+    // Make the category uppercase
+    document.title += ` ${this.category[0].toUpperCase()}${this.category.substring(1)}`;
+
+    document.querySelector('.title').textContent += `: ${this.category[0].toUpperCase()}${this.category.substring(1)}`;
   }
 
   renderList(list) {
