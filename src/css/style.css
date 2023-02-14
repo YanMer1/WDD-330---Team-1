@@ -136,6 +136,20 @@ button {
 .products {
   padding: 0.5em;
 }
+
+.product-category {
+  padding: 0;
+  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 200px));
+  justify-content: center;
+  list-style-type: none;
+}
+
+.product-category svg {
+  width: 80%;
+}
+
 .product-list {
   display: flex;
   flex-flow: row wrap;
@@ -143,7 +157,7 @@ button {
   list-style-type: none;
   padding: 0;
 }
-.product-list a {
+.product-list a, .product-category a {
   text-decoration: none;
   color: var(--dark-grey);
 }
