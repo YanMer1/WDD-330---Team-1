@@ -53,6 +53,7 @@ export default class ProductDetails {
     if (!cartItems) {
       cartItems = [];
     }
+    console.log(this.product);
 
     cartItems.push(this.product);
     setLocalStorage('so-cart', cartItems);

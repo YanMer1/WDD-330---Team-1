@@ -201,6 +201,7 @@ button {
   font-size: var(--small-font);
   /* max-height: 120px; */
   align-items: center;
+  margin: .3rem auto;
 }
 
 .cart-card__image {
@@ -241,6 +242,31 @@ button {
 
 .suggested-price {
   text-decoration: line-through;
+}
+
+.remove-item {
+  width: 100%;
+  border-radius: 15px;
+  background-color: #d80303;
+  border: 2px solid #a00404;
+}
+
+.remove-item:hover {
+  background-color: #a00404;
+}
+
+.cart-card__checkout {
+  padding: 10px 15px;
+  margin: 10px;
+  background-color: var(--secondary-color);
+  color: white;
+  text-decoration: none;
+  border-radius: 15px;
+}
+
+.cart-card__checkout:hover {
+  background-color: var(--tertiary-color);
+  color: var(--secondary-color);
 }
 
 @media screen and (min-width: 500px) {

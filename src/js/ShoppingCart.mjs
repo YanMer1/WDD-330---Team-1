@@ -21,7 +21,7 @@ function cartItemTemplate(item) {
         const newItem = `<li class="cart-card divider">
     <a href="#" class="cart-card__image">
       <img
-        src="${item.Image}"
+        src="${item.Images.PrimaryMedium}"
         alt="${item.Name}"
       />
     </a>
@@ -32,12 +32,21 @@ function cartItemTemplate(item) {
     <p class="cart-card__quantity">qty: ${cartItemsDisplayed[inCartItems.indexOf(item.Id)][0]}</p>
     <p class="cart-card__price">Each: $${item.FinalPrice}</p>
     <p class="cart-card__subtotal">Subtotal: $${item.FinalPrice * cartItemsDisplayed[inCartItems.indexOf(item.Id)][0]}</p>
-  </li>
-  <button class="remove-item" id=${item.Id}>X</button>`;
+    <button class="remove-item" id=${item.Id}>X</button>
+  </li>`;
 
         cartItemsDisplayed[inCartItems.indexOf(item.Id)][1] = true;
         return newItem;
     }
+}
+
+function cartTotal(cartItems, totalElement) {
+    let total = 0;
+    cartItems.forEach(element => {
+        total += element.FinalPrice;
+    });
+
+    document.querySelector(totalElement).innerHTML = `<h2>Total: $${total}</h2><a href="../checkout/index.html" class="cart-card__checkout">Checkout</a>`;
 }
 
 export function removeCartItem(item) {
@@ -69,6 +78,7 @@ export default class ShoppingCart {
         const cartItems = getLocalStorage(this.key);
         inCart(cartItems);
         const htmlItems = cartItems.map((item) => cartItemTemplate(item));
+        cartTotal(cartItems, '.cart-card__total');
         if (htmlItems.length == 0) {
             document.querySelector(this.parentSelector).innerHTML = '<h1>Your cart is empty :(</h1>';
         } else {
