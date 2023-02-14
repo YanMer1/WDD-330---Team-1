@@ -12,4 +12,4 @@ const productDetails = new ProductDetails(productId, dataSource);
 function init() {
     productDetails.init();
 }
-setTimeout(init, 50);
+setTimeout(init, 250);

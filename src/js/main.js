@@ -14,14 +14,10 @@ if (!getLocalStorage('so-cart').length) {
 
 loadheaderFooter();
 
-const dataSource = new ProductData('tents');
-
-const productList = new ProductList('tents', dataSource, document.querySelector('.product-list'));
 
 function init() {
-  productList.init();
   
   updateCartIcon();
 }
 
-setTimeout(init, 50);
+setTimeout(init, 250);

@@ -21,4 +21,4 @@ function init() {
   document.body.addEventListener('click', removeItemHandler);
 }
 
-setTimeout(init, 50);
+setTimeout(init, 250);
