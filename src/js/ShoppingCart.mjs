@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage } from './utils.mjs';
+import { getLocalStorage, setLocalStorage, cartTotal } from './utils.mjs';
 
 let inCartItems = [];
 let cartItemsDisplayed = [];
@@ -40,15 +40,6 @@ function cartItemTemplate(item) {
     }
 }
 
-function cartTotal(cartItems, totalElement) {
-    let total = 0;
-    cartItems.forEach(element => {
-        total += element.FinalPrice;
-    });
-
-    document.querySelector(totalElement).innerHTML = `<h2>Total: $${total}</h2><a href="../checkout/index.html" class="cart-card__checkout">Checkout</a>`;
-}
-
 export function removeCartItem(item) {
     const cartItems = getLocalStorage('so-cart');
     if (item.target.classList == 'remove-item') {
@@ -78,7 +69,7 @@ export default class ShoppingCart {
         const cartItems = getLocalStorage(this.key);
         inCart(cartItems);
         const htmlItems = cartItems.map((item) => cartItemTemplate(item));
-        cartTotal(cartItems, '.cart-card__total');
+        document.querySelector('.cart-card__total').innerHTML = cartTotal(cartItems);
         if (htmlItems.length == 0) {
             document.querySelector(this.parentSelector).innerHTML = '<h1>Your cart is empty :(</h1>';
         } else {
