@@ -302,6 +302,24 @@ label {
   color: var(--secondary-color);
 }
 
+.checkout {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.order-summary label {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.order-summary label p {
+  margin: 0 .5rem;
+}
+
+.order-summary label p:last-child {
+  text-align: right;
+}
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;
