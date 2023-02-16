@@ -11,11 +11,4 @@ if (!getLocalStorage('so-cart').length) {
 }
 
 loadheaderFooter();
-
-
-function init() {
-  
-  updateCartIcon();
-}
-
-setTimeout(init, 250);
+updateCartIcon();

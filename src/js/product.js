@@ -9,8 +9,4 @@ const productId = getParam('product');
 const dataSource = new ProductData(category);
 
 const productDetails = new ProductDetails(productId, dataSource);
-
-function init() {
-    productDetails.init();
-}
-setTimeout(init, 250);
+productDetails.init();

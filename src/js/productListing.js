@@ -12,10 +12,5 @@ const listElement = document.querySelector('.product-list');
 
 const myList = new ProductList(category, dataSource, listElement);
 
-function init() {
-  myList.init();
-  
-  updateCartIcon();
-}
-
-setTimeout(init, 250);
+myList.init();
+updateCartIcon();

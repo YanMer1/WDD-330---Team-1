@@ -33,15 +33,18 @@ export function getParam(param) {
 
 
 export function updateCartIcon() {
-  const cartIcon = document.querySelector('.cart');
-  const cartLength = document.createElement('p');
-
-  if (cartIcon.children[0].children.length > 1) {
-    cartIcon.children[0].removeChild(cartIcon.children[0].children[1]);
+  function updateIcon() {
+    const cartIcon = document.querySelector('.cart');
+    const cartLength = document.createElement('p');
+  
+    if (cartIcon.children[0].children.length > 1) {
+      cartIcon.children[0].removeChild(cartIcon.children[0].children[1]);
+    }
+  
+    cartLength.textContent = getLocalStorage('so-cart').length;
+    cartIcon.children[0].appendChild(cartLength);
   }
-
-  cartLength.textContent = getLocalStorage('so-cart').length;
-  cartIcon.children[0].appendChild(cartLength);
+  setTimeout(updateIcon, 500);
 }
 
 export function cartTotal(cartItems) {
