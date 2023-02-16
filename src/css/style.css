@@ -312,13 +312,13 @@ label {
   grid-template-columns: 1fr 1fr;
 }
 
-.order-summary label p {
+.order-summary label input {
   margin: 0 .5rem;
+  text-align: right;
+  border: none;
+  font-size: 1rem
 }
 
-.order-summary label p:last-child {
-  text-align: right;
-}
 
 @media screen and (min-width: 500px) {
   body {

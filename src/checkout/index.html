@@ -21,73 +21,73 @@
       <form name="checkout" class="checkout">
         <fieldset>
           <legend>Shipping</legend>
-          <label for="first-name">
+          <label for="fname">
             First Name
-            <input type="text" name="first-name">
+            <input type="text" name="fname" required>
           </label>
 
-          <label for="last-name">
+          <label for="lname">
             Last Name
-            <input type="text" name="last-name">
+            <input type="text" name="lname" required>
           </label>
 
           <label for="street">
             Street
-            <input type="text" name="street">
+            <input type="text" name="street" required>
           </label>
 
           <label for="city">
             City
-            <input type="text" name="city">
+            <input type="text" name="city" required>
           </label>
 
           <label for="state">
             State
-            <input type="text" name="state">
+            <input type="text" name="state" required>
           </label>
 
           <label for="zip">
             Zip
-            <input type="text" name="zip">
+            <input type="text" name="zip" required>
           </label>
         </fieldset>
 
         <fieldset>
           <legend>Payment</legend>
-          <label for="card-number">
+          <label for="cardNumber">
             Card number
-            <input type="number" name="card-number">
+            <input type="number" name="cardNumber" required>
           </label>
 
           <label for="expiration">
             Expiration
-            <input type="text" name="expiration">
+            <input type="text" name="expiration" required>
           </label>
 
-          <label for="security-code">
+          <label for="code">
             Security code
-            <input type="text" name="security-code">
+            <input type="text" name="code" required>
           </label>
         </fieldset>
-        <fieldset name="order-summary" class="order-summary">
+        <fieldset name="order-summary" class="order-summary" required>
           <legend>Order Summary</legend>
-          <label for="subtotal" name="subtotal">
+          <label for="subtotal">
             Item Subtotal
           </label>
 
-          <label for="shipping-estimate" name="shipping-estimate">
+          <label for="shipping">
             Shipping estimate
           </label>
 
-          <label for="tax" name="tax">
+          <label for="tax">
             Tax
           </label>
 
-          <label for="order-total" name="order-total">
+          <label for="orderTotal">
             Order Total
           </label>
         </fieldset>
-        <button>Checkout</button>
+        <button type="submit" id="checkout-btn">Checkout</button>
       </form>
     </section>
   </main>
