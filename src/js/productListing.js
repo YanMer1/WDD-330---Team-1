@@ -1,6 +1,6 @@
 import { updateCartIcon, loadheaderFooter, getParam } from './utils.mjs';
 import ProductList from './ProductList.mjs';
-import ExternalServices from './ProductData.mjs';
+import ExternalServices from './ExternalServices.mjs';
 
 
 loadheaderFooter();
