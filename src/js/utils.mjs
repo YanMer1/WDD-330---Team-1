@@ -46,30 +46,60 @@ export function setClick(selector, callback) {
     callback();
   });
   qs(selector).addEventListener('click', callback);
+
 }
+
+export function getParam(param) {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const product = urlParams.get(param);
+
+  return product;
+}
+
+export function updateCartIcon() {
+  const cartIcon = document.querySelector('.cart');
+  const cartLength = document.createElement('p');
+
+  if (cartIcon.children[0].children.length > 1) {
+    cartIcon.children[0].removeChild(cartIcon.children[0].children[1]);
+  }
+
+  cartLength.textContent = getLocalStorage('so-cart').length;
+  cartIcon.children[0].appendChild(cartLength);
+}
+
+export function renderListWithTemplate(templateFn, parentElement, list, position = 'afterbegin', clear = false) {
+  if (clear) {
+    parentElement.innerHTML = '';
+  }
+
+  const htmlStrings = list.map(templateFn);
+  parentElement.insertAdjacentHTML(position, htmlStrings.join(''));
+}
+
 export function renderWithTemplate(template, parentElement, data, callback) {
   parentElement.insertAdjacentHTML('afterbegin', template);
-  if(callback) {
-      callback(data);
+  if (callback) {
+    callback(data);
   }
 }
 
-async function loadTemplate(path) {
-  const res = await fetch(path);
-  const template = await res.text();
-  return template;
+export async function loadTemplate(path) {
+  let response = await fetch(path);
+  const result = await response.text();
+  return result;
+
 }
 
 // function to dynamically load the header and footer into a page
-export async function loadHeaderFooter() {
+export async function loadheaderFooter() {
   const headerTemplate = await loadTemplate('../partials/header.html');
   const headerElement = document.querySelector('#main-header');
+
   const footerTemplate = await loadTemplate('../partials/footer.html');
   const footerElement = document.querySelector('#main-footer');
 
   renderWithTemplate(headerTemplate, headerElement);
   renderWithTemplate(footerTemplate, footerElement);
 }
-
-
-
