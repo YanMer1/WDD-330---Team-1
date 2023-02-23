@@ -1,3 +1,4 @@
+
 import { setLocalStorage, getLocalStorage, updateCartIcon } from './utils.mjs';
 
 function productDetailsTemaplate(product) {

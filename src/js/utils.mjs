@@ -13,6 +13,32 @@ export function getLocalStorage(key) {
 export function setLocalStorage(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
+
+// helper to get parameter strings
+export function getParam(param) {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const product = urlParams.get(param);
+  return product;
+}
+
+// function to take a list of objects and a template and insert the objects as HTML into the DOM
+
+export function renderListWithTemplate(
+  templateFn,
+  parentElement,
+  list,
+  position = 'afterbegin',
+  clear = false
+) {
+  const htmlStrings = list.map(templateFn);
+  // if clear is true we need to clear out the contents of the parent.
+  if (clear) {
+    parentElement.innerHTML = '';
+  }
+  parentElement.insertAdjacentHTML(position, htmlStrings.join(''));
+}
+
 // set a listener for both touchend and click
 export function setClick(selector, callback) {
   qs(selector).addEventListener('touchend', (event) => {
@@ -30,7 +56,6 @@ export function getParam(param) {
 
   return product;
 }
-
 
 export function updateCartIcon() {
   const cartIcon = document.querySelector('.cart');
@@ -62,12 +87,12 @@ export function renderWithTemplate(template, parentElement, data, callback) {
 
 export async function loadTemplate(path) {
   let response = await fetch(path);
-
   const result = await response.text();
   return result;
 
 }
 
+// function to dynamically load the header and footer into a page
 export async function loadheaderFooter() {
   const headerTemplate = await loadTemplate('../partials/header.html');
   const headerElement = document.querySelector('#main-header');
