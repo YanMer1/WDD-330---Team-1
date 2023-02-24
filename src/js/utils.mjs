@@ -49,15 +49,37 @@ export function setClick(selector, callback) {
 
 }
 
+export function alertMessage(message, scroll = true, duration = 3000) {
+  const alert = document.createElement('div');
+  alert.classList.add('alert');
+  alert.innerHTML = `<p>${message}</p><span>X</span>`;
+
+  alert.addEventListener('click', function (e) {
+    if (e.target.tagName == 'SPAN') {
+      main.removeChild(this);
+    }
+  });
+
+  const main = document.querySelector('main');
+  main.prepend(alert);
+
+  if (scroll) window.scrollTo(0, 0);
+}
+
+export function removeAllAlerts() {
+  const alerts = document.querySelectorAll('.alert');
+  alerts.forEach((alert) => document.querySelector('main').removeChild(alert));
+}
+
 export function updateCartIcon() {
   function init() {
     const cartIcon = document.querySelector('.cart');
     const cartLength = document.createElement('p');
-  
+
     if (cartIcon.children[0].children.length > 1) {
       cartIcon.children[0].removeChild(cartIcon.children[0].children[1]);
     }
-  
+
     cartLength.textContent = getLocalStorage('so-cart').length;
     cartIcon.children[0].appendChild(cartLength);
   }
