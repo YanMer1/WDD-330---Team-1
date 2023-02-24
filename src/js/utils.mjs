@@ -49,33 +49,32 @@ export function setClick(selector, callback) {
 
 }
 
-export function getParam(param) {
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const product = urlParams.get(param);
-
-  return product;
-}
-
 export function updateCartIcon() {
-  const cartIcon = document.querySelector('.cart');
-  const cartLength = document.createElement('p');
-
-  if (cartIcon.children[0].children.length > 1) {
-    cartIcon.children[0].removeChild(cartIcon.children[0].children[1]);
+  function init() {
+    const cartIcon = document.querySelector('.cart');
+    const cartLength = document.createElement('p');
+  
+    if (cartIcon.children[0].children.length > 1) {
+      cartIcon.children[0].removeChild(cartIcon.children[0].children[1]);
+    }
+  
+    cartLength.textContent = getLocalStorage('so-cart').length;
+    cartIcon.children[0].appendChild(cartLength);
   }
-
-  cartLength.textContent = getLocalStorage('so-cart').length;
-  cartIcon.children[0].appendChild(cartLength);
+  setTimeout(init, 250);
 }
 
-export function renderListWithTemplate(templateFn, parentElement, list, position = 'afterbegin', clear = false) {
-  if (clear) {
-    parentElement.innerHTML = '';
-  }
+export function cartTotal(cartItems) {
+  let total = 0;
+  cartItems.forEach(element => {
+    total += element.FinalPrice;
+  });
 
-  const htmlStrings = list.map(templateFn);
-  parentElement.insertAdjacentHTML(position, htmlStrings.join(''));
+  if (total) {
+    return `<h2>Total: $${total}</h2><a href="../checkout/index.html" class="cart-card__checkout">Checkout</a>`;
+  } else {
+    return ``;
+  }
 }
 
 export function renderWithTemplate(template, parentElement, data, callback) {
@@ -93,7 +92,7 @@ export async function loadTemplate(path) {
 }
 
 // function to dynamically load the header and footer into a page
-export async function loadheaderFooter() {
+export async function loadHeaderFooter() {
   const headerTemplate = await loadTemplate('../partials/header.html');
   const headerElement = document.querySelector('#main-header');
 

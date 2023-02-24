@@ -14,81 +14,104 @@ function formDataToJSON(formElement) {
 }
 
 function packageItems(items) {
-  const simplifiedItems = items.map((item) => {
-    console.log(item);
-    return {
-      id: item.Id,
-      price: item.FinalPrice,
-      name: item.Name,
-      quantity: 1,
-    };
+  let addedItems = [];
+  items.forEach((item) => {
+      if (addedItems.find((itm) => itm[0] === item.Id)) {
+          let quantity = addedItems.find((itm) => itm[0] === item.Id)[1] + 1;
+          for (let i = 0; i < addedItems.length; i++) {
+              if (addedItems[i].indexOf(item.Id) == 0) {
+                  addedItems[i] = [item.Id, quantity];
+              }
+          }
+      } else {
+          addedItems.push([item.Id, 1]);
+      }
   });
-  return simplifiedItems;
+  
+  const objectItems = addedItems.map((item) => {
+      let currentItem = items.find((itm) => itm[0] === item.Id);
+      console.log(currentItem);
+      return {
+          id: currentItem.Id,
+          price: currentItem.FinalPrice,
+          name: currentItem.Name,
+          quantity: item[1]
+      };
+  });
+  return objectItems;
 }
 
 export default class CheckoutProcess {
   constructor(key, outputSelector) {
-    this.key = key;
-    this.outputSelector = outputSelector;
-    this.list = [];
-    this.itemTotal = 0;
-    this.shipping = 0;
-    this.tax = 0;
-    this.orderTotal = 0;
+      this.key = key;
+      this.outputSelector = outputSelector;
+      this.list = [];
+      this.itemTotal = 0;
+      this.shipping = 0;
+      this.tax = 0;
+      this.orderTotal = 0;
   }
-  init() {
-    this.list = getLocalStorage(this.key);
-    this.calculateItemSummary();
-  }
-  calculateItemSummary() {
-    const summaryElement = document.querySelector(
-      this.outputSelector + ' #cartTotal'
-    );
-    const itemNumElement = document.querySelector(
-      this.outputSelector + ' #num-items'
-    );
-    itemNumElement.innerText = this.list.length;
-    // calculate the total of all the items in the cart
-    const amounts = this.list.map((item) => item.FinalPrice);
-    this.itemTotal = amounts.reduce((sum, item) => sum + item);
-    summaryElement.innerText = '$' + this.itemTotal;
-  }
-  calculateOrdertotal() {
-    this.shipping = 10 + (this.list.length - 1) * 2;
-    this.tax = (this.itemTotal * 0.06).toFixed(2);
-    this.orderTotal = (
-      parseFloat(this.itemTotal) +
-      parseFloat(this.shipping) +
-      parseFloat(this.tax)
-    ).toFixed(2);
-    this.displayOrderTotals();
-  }
-  displayOrderTotals() {
-    const shipping = document.querySelector(this.outputSelector + ' #shipping');
-    const tax = document.querySelector(this.outputSelector + ' #tax');
-    const orderTotal = document.querySelector(
-      this.outputSelector + ' #orderTotal'
-    );
-    shipping.innerText = '$' + this.shipping;
-    tax.innerText = '$' + this.tax;
-    orderTotal.innerText = '$' + this.orderTotal;
-  }
-  async checkout() {
-    const formElement = document.forms['checkout'];
 
-    const json = formDataToJSON(formElement);
-    // add totals, and item details
-    json.orderDate = new Date();
-    json.orderTotal = this.orderTotal;
-    json.tax = this.tax;
-    json.shipping = this.shipping;
-    json.items = packageItems(this.list);
-    console.log(json);
-    try {
-      const res = await services.checkout(json);
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
+  init() {
+      this.list = getLocalStorage(this.key);
+      this.calculateOrderTotal();
+      this.displayOrderTotal();
+  }
+
+  calculateOrderTotal() {
+      this.list.forEach((item) => {
+          this.itemTotal += item.FinalPrice;
+
+          if (this.shipping == 0) {
+              this.shipping = 10;
+          } else {
+              this.shipping += 2;
+          }
+      });
+
+      this.tax = Math.round(this.itemTotal * 0.06 * 100) / 100;
+
+      this.orderTotal = this.itemTotal + this.shipping + this.tax;
+  }
+
+  displayOrderTotal() {
+      document.querySelector(this.outputSelector).innerHTML =
+          `<legend>Order Summary</legend>
+          <label for="subtotal">
+            Item Subtotal(${this.list.length})
+            <input value="$${this.itemTotal}" readonly></input>
+          </label>
+          <label for="shipping">
+            Shipping estimate
+            <input name="shipping" value="$${this.shipping}" readonly></input>
+          </label>
+          <label for="tax">
+            Tax
+            <input name="tax" value="$${this.tax}" readonly></input>
+          </label>
+          <label for="orderTotal">
+            Order Total
+            <input name="orderTotal" value="$${this.orderTotal}" readonly></input>
+          </label>`;
+  }
+
+  async checkout() {
+      const formElement = document.forms['checkout'];
+
+      const json = formDataToJSON(formElement);
+
+      json.orderDate = new Date();
+      json.orderTotal = this.orderTotal;
+      json.tax = this.tax;
+      json.shipping = this.shipping;
+      json.items = packageItems(this.list);
+      console.log(json);
+
+      try {
+          const response = await services.checkout(json);
+          console.log(response);
+      } catch (error) {
+          console.log(error);
+      }
   }
 }

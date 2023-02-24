@@ -1,4 +1,4 @@
-import { updateCartIcon, getLocalStorage, setLocalStorage, loadheaderFooter } from './utils.mjs';
+import { updateCartIcon, getLocalStorage, setLocalStorage, loadHeaderFooter } from './utils.mjs';
 
 /* 
 Convert cart item in local storage from JSON to Array.
@@ -10,7 +10,7 @@ if (!getLocalStorage('so-cart').length) {
   setLocalStorage('so-cart', []);
 }
 
-loadheaderFooter();
+loadHeaderFooter();
 
 
 function init() {

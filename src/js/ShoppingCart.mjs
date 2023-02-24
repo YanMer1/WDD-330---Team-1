@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage } from './utils.mjs';
+import { getLocalStorage, setLocalStorage, cartTotal } from './utils.mjs';
 
 let inCartItems = [];
 let cartItemsDisplayed = [];
@@ -21,7 +21,7 @@ function cartItemTemplate(item) {
         const newItem = `<li class="cart-card divider">
     <a href="#" class="cart-card__image">
       <img
-        src="${item.Image}"
+        src="${item.Images.PrimaryMedium}"
         alt="${item.Name}"
       />
     </a>
@@ -32,8 +32,8 @@ function cartItemTemplate(item) {
     <p class="cart-card__quantity">qty: ${cartItemsDisplayed[inCartItems.indexOf(item.Id)][0]}</p>
     <p class="cart-card__price">Each: $${item.FinalPrice}</p>
     <p class="cart-card__subtotal">Subtotal: $${item.FinalPrice * cartItemsDisplayed[inCartItems.indexOf(item.Id)][0]}</p>
-  </li>
-  <button class="remove-item" id=${item.Id}>X</button>`;
+    <button class="remove-item" id=${item.Id}>X</button>
+  </li>`;
 
         cartItemsDisplayed[inCartItems.indexOf(item.Id)][1] = true;
         return newItem;
@@ -69,10 +69,12 @@ export default class ShoppingCart {
         const cartItems = getLocalStorage(this.key);
         inCart(cartItems);
         const htmlItems = cartItems.map((item) => cartItemTemplate(item));
+        document.querySelector('.cart-card__total').innerHTML = cartTotal(cartItems);
         if (htmlItems.length == 0) {
             document.querySelector(this.parentSelector).innerHTML = '<h1>Your cart is empty :(</h1>';
         } else {
             document.querySelector(this.parentSelector).innerHTML = htmlItems.join('');
         }
     }
+
 }

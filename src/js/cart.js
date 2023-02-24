@@ -1,8 +1,8 @@
-import { updateCartIcon, loadheaderFooter } from './utils.mjs';
+import { updateCartIcon, loadHeaderFooter } from './utils.mjs';
 import ShoppingCart from './ShoppingCart.mjs';
 import { removeCartItem } from './ShoppingCart.mjs';
 
-loadheaderFooter();
+loadHeaderFooter();
 
 const cart = new ShoppingCart('so-cart', '.product-list');
 
